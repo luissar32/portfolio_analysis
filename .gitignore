@@ -3,3 +3,5 @@ venv/
 venv311/
 *.pyc
 __pycache__/
+frontend/__pycache__/
+frontend/*.pyc

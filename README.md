@@ -17,3 +17,18 @@ Este proyecto analiza el rendimiento de una cartera de acciones usando Python. C
 - pandas
 - numpy
 - plotly
+
+## Aplicación Streamlit
+
+Una interfaz web para el análisis de portafolios está disponible en el directorio `frontend/`.
+
+### Ejecutar en Streamlit Cloud
+1. Conecta este repositorio y selecciona la rama `feature/porfolioAnalysis_v0.1_20250510`.
+3. Configura `frontend/main.py` como punto de entrada.
+4. Accede a la URL generada para probar la aplicación.
+
+### Funcionalidades
+- Carga datos de acciones vía `yfinance` o CSV.
+- Calcula métricas como retorno anualizado y Sharpe ratio.
+- Visualiza retornos acumulados y la frontera eficiente.
+- Muestra pesos óptimos del portafolio.
