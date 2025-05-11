@@ -1,0 +1,1 @@
+# Placeholder para funciones auxiliares
