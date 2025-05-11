@@ -1,21 +1,5 @@
-body {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    background-color: #f8f9fa;
-}
-h1, h2, h3 {
-    color: #2c3e50;
-}
-.stButton>button {
-    background-color: #34495e;
-    color: white;
-    border-radius: 5px;
-}
-.stMetric {
-    background-color: #ffffff;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-.stSidebar {
-    background-color: #ecf0f1;
-}
+Date,AAPL,MSFT,GOOGL
+2023-01-01,125.07,239.82,88.23
+2023-01-02,126.36,241.75,89.12
+2023-01-03,124.74,237.93,87.93
+2023-01-04,127.89,243.12,90.45

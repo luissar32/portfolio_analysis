@@ -3,7 +3,12 @@ import pandas as pd
 import plotly.express as px
 import yfinance as yf
 import numpy as np
-from frontend.utils import format_data
+import sys
+import os
+
+# Añadir la raíz del repositorio al sys.path para importaciones
+sys.path.append(os.path.abspath(os.path.dirname(__file__)))
+from utils import format_data  # Importación relativa desde frontend/utils.py
 
 # Funciones genéricas (reemplazan src/)
 def fetch_stock_data(tickers, start_date, end_date):
@@ -34,8 +39,11 @@ def optimize_portfolio(returns, risk_free_rate):
 st.set_page_config(page_title="Portfolio Analysis Microservice", layout="wide")
 
 # Custom CSS
-with open("frontend/assets/style.css") as f:
-    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+try:
+    with open(os.path.join(os.path.dirname(__file__), "assets", "style.css")) as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+except FileNotFoundError:
+    st.warning("No se encontró style.css. Usando estilo por defecto.")
 
 # Title and description
 st.title("Portfolio Analysis Microservice")
@@ -52,56 +60,63 @@ with st.sidebar:
 
 # Main content
 if st.button("Analyze Portfolio"):
-    if uploaded_file:
-        df = pd.read_csv(uploaded_file, index_col=0, parse_dates=True)
-        df = format_data(df)
-    else:
-        tickers_list = [t.strip() for t in tickers.split(",")]
-        df = fetch_stock_data(tickers_list, start_date, end_date)
-        df = format_data(df)
+    try:
+        if uploaded_file:
+            df = pd.read_csv(uploaded_file, index_col=0, parse_dates=True)
+            df = format_data(df)
+        else:
+            tickers_list = [t.strip() for t in tickers.split(",")]
+            df = fetch_stock_data(tickers_list, start_date, end_date)
+            df = format_data(df)
 
-    # Display raw data
-    st.subheader("Portfolio Data")
-    st.dataframe(df.tail())
+        # Display raw data
+        st.subheader("Portfolio Data")
+        st.dataframe(df.tail())
 
-    # Calculate metrics
-    returns = calculate_returns(df)
-    sharpe_ratio = calculate_sharpe_ratio(returns, risk_free_rate)
+        # Calculate metrics
+        returns = calculate_returns(df)
+        sharpe_ratio = calculate_sharpe_ratio(returns, risk_free_rate)
 
-    # Display metrics
-    col1, col2 = st.columns(2)
-    with col1:
-        annualized_return = returns.mean() * 252 * 100
-        st.metric("Annualized Return", f"{annualized_return.mean():.2f}%")
-    with col2:
-        st.metric("Sharpe Ratio", f"{sharpe_ratio:.2f}")
+        # Display metrics
+        col1, col2 = st.columns(2)
+        with col1:
+            annualized_return = returns.mean() * 252 * 100
+            st.metric("Annualized Return", f"{annualized_return.mean():.2f}%")
+        with col2:
+            st.metric("Sharpe Ratio", f"{sharpe_ratio:.2f}")
 
-    # Visualize returns
-    st.subheader("Cumulative Returns")
-    cumulative_returns = (1 + returns).cumprod() - 1
-    fig_returns = px.line(cumulative_returns, title="Cumulative Returns", template="simple_white")
-    fig_returns.update_layout(xaxis_title="Date", yaxis_title="Cumulative Return")
-    st.plotly_chart(fig_returns, use_container_width=True)
+        # Visualize returns
+        st.subheader("Cumulative Returns")
+        cumulative_returns = (1 + returns).cumprod() - 1
+        fig_returns = px.line(cumulative_returns, title="Cumulative Returns", template="simple_white")
+        fig_returns.update_layout(xaxis_title="Date", yaxis_title="Cumulative Return")
+        st.plotly_chart(fig_returns, use_container_width=True)
 
-    # Portfolio optimization
-    st.subheader("Efficient Frontier")
-    weights, frontier = optimize_portfolio(returns, risk_free_rate)
-    fig_frontier = px.scatter(x=frontier["Volatility"] * np.sqrt(252) * 100,
-                             y=frontier["Return"] * 252 * 100,
-                             title="Efficient Frontier",
-                             template="simple_white")
-    fig_frontier.update_layout(xaxis_title="Annualized Volatility (%)",
-                              yaxis_title="Annualized Return (%)")
-    st.plotly_chart(fig_frontier, use_container_width=True)
+        # Portfolio optimization
+        st.subheader("Efficient Frontier")
+        weights, frontier = optimize_portfolio(returns, risk_free_rate)
+        fig_frontier = px.scatter(x=frontier["Volatility"] * np.sqrt(252) * 100,
+                                 y=frontier["Return"] * 252 * 100,
+                                 title="Efficient Frontier",
+                                 template="simple_white")
+        fig_frontier.update_layout(xaxis_title="Annualized Volatility (%)",
+                                  yaxis_title="Annualized Return (%)")
+        st.plotly_chart(fig_frontier, use_container_width=True)
 
-    # Optimal weights
-    st.subheader("Optimal Portfolio Weights")
-    weights_df = pd.DataFrame(weights, index=df.columns, columns=["Weight"])
-    st.dataframe(weights_df.style.format("{:.2%}"))
+        # Optimal weights
+        st.subheader("Optimal Portfolio Weights")
+        weights_df = pd.DataFrame(weights, index=df.columns, columns=["Weight"])
+        st.dataframe(weights_df.style.format("{:.2%}"))
+
+    except Exception as e:
+        st.error(f"Error al analizar el portafolio: {str(e)}")
 
 else:
     st.info("Enter tickers or upload a CSV and click 'Analyze Portfolio' to begin.")
     if st.button("Load Sample Data"):
-        df = pd.read_csv("frontend/assets/sample_data.csv", index_col=0, parse_dates=True)
-        st.session_state["uploaded_file"] = df
-        st.experimental_rerun()
+        try:
+            df = pd.read_csv(os.path.join(os.path.dirname(__file__), "assets", "sample_data.csv"), index_col=0, parse_dates=True)
+            st.session_state["uploaded_file"] = df
+            st.experimental_rerun()
+        except FileNotFoundError:
+            st.error("No se encontró sample_data.csv.")
