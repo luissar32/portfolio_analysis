@@ -1,16 +1,40 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-from src.data.fetch_data import fetch_stock_data
-from src.utils.metrics import calculate_returns, calculate_sharpe_ratio
-from src.models.portfolio_optimization import optimize_portfolio
-from visualization.utils import format_data
+import yfinance as yf
+import numpy as np
+from frontend.utils import format_data
+
+# Funciones genéricas (reemplazan src/)
+def fetch_stock_data(tickers, start_date, end_date):
+    """Fetch stock data from Yahoo Finance."""
+    data = yf.download(tickers, start=start_date, end=end_date)["Adj Close"]
+    return data
+
+def calculate_returns(df):
+    """Calculate daily returns."""
+    return df.pct_change().dropna()
+
+def calculate_sharpe_ratio(returns, risk_free_rate):
+    """Calculate Sharpe ratio."""
+    mean_return = returns.mean() * 252
+    std_return = returns.std() * np.sqrt(252)
+    return (mean_return - risk_free_rate) / std_return
+
+def optimize_portfolio(returns, risk_free_rate):
+    """Simple portfolio optimization (equal weights for demo)."""
+    weights = np.ones(len(returns.columns)) / len(returns.columns)
+    frontier = pd.DataFrame({
+        "Return": np.linspace(returns.mean().min(), returns.mean().max(), 10) * 252,
+        "Volatility": np.linspace(returns.std().min(), returns.std().max(), 10)
+    })
+    return pd.Series(weights, index=returns.columns), frontier
 
 # Page configuration
 st.set_page_config(page_title="Portfolio Analysis Microservice", layout="wide")
 
 # Custom CSS
-with open("visualization/assets/style.css") as f:
+with open("frontend/assets/style.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 # Title and description
@@ -22,7 +46,7 @@ with st.sidebar:
     st.header("Portfolio Configuration")
     tickers = st.text_input("Stock Tickers (comma-separated)", "AAPL,MSFT,GOOGL")
     start_date = st.date_input("Start Date", value=pd.to_datetime("2023-01-01"))
-    end_date = st.date_input("End Date", value=pd.to_datetime("2025-05-01"))
+    end_date = st.date_input("End Date", value=pd.to_datetime("2024-05-01"))
     risk_free_rate = st.number_input("Risk-Free Rate (%)", min_value=0.0, max_value=10.0, value=2.0, step=0.1) / 100
     uploaded_file = st.file_uploader("Upload CSV (optional)", type=["csv"])
 
@@ -78,6 +102,6 @@ if st.button("Analyze Portfolio"):
 else:
     st.info("Enter tickers or upload a CSV and click 'Analyze Portfolio' to begin.")
     if st.button("Load Sample Data"):
-        df = pd.read_csv("visualization/assets/sample_data.csv", index_col=0, parse_dates=True)
+        df = pd.read_csv("frontend/assets/sample_data.csv", index_col=0, parse_dates=True)
         st.session_state["uploaded_file"] = df
         st.experimental_rerun()
