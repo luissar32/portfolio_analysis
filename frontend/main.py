@@ -12,18 +12,18 @@ sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 from utils import format_data
 
 def fetch_stock_data(tickers, start_date, end_date, max_retries=3):
-    """Fetch stock data from Yahoo Finance with retries."""
+    #obtener data usando yfinance
     for attempt in range(max_retries):
         try:
             data = yf.download(tickers, start=start_date, end=end_date, auto_adjust=True)["Close"]
             if data.empty or data.isna().all().all():
-                raise ValueError("No se encontraron datos para los tickers y fechas especificados.")
+                raise ValueError("No fue posible localizar datos en esas fechas para esos tickers.")
             return data
         except Exception as e:
             if attempt < max_retries - 1:
                 time.sleep(1)
                 continue
-            raise ValueError(f"Error al obtener datos de Yahoo Finance tras {max_retries} intentos: {str(e)}")
+            raise ValueError(f"Error al obtener data (yfinance) tras {max_retries} intentos: {str(e)}")
 
 def calculate_returns(df):
     returns = df.pct_change().dropna()
@@ -56,7 +56,7 @@ def optimize_portfolio(returns, risk_free_rate):
     })
     return pd.Series(weights, index=returns.columns, name="Weight"), frontier
 
-st.set_page_config(page_title="Portfolio Analysis Microservice", layout="wide")
+st.set_page_config(page_title="Portfolio Analysis", layout="wide")
 
 try:
     with open(os.path.join(os.path.dirname(__file__), "assets", "style.css")) as f:
@@ -64,14 +64,14 @@ try:
 except FileNotFoundError:
     st.warning("No se encontró style.css.")
 
-st.title("Portfolio Analysis Microservice")
+st.title("Portfolio Analysis")
 st.markdown("Analiza y optimiza portafolios de inversión con datos financieros en tiempo real.")
 
 with st.sidebar:
     st.header("Configuración del Portafolio")
-    tickers = st.text_input("Tickers de Acciones (separados por comas)", "AAPL,MSFT,GOOGL")
-    start_date = st.date_input("Fecha de Inicio", value=pd.to_datetime("2023-01-01"), max_value=date.today())
-    end_date = st.date_input("Fecha de Fin", value=pd.to_datetime("2024-05-01"), max_value=date.today())
+    tickers = st.text_input("Tickers de Acciones", "AAPL,MSFT,GOOGL")
+    start_date = st.date_input("Fecha de Inicio", value=pd.to_datetime("2025-01-01"), max_value=date.today())
+    end_date = st.date_input("Fecha de Fin", value=pd.to_datetime("2025-04-30"), max_value=date.today())
     risk_free_rate = st.number_input("Tasa Libre de Riesgo (%)", min_value=0.0, max_value=10.0, value=2.0, step=0.1) / 100
     uploaded_file = st.file_uploader("Subir CSV (opcional)", type=["csv"])
 

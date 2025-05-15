@@ -1,5 +1,42 @@
-Date,AAPL,MSFT,GOOGL
-2023-01-03,125.07,239.58,89.12
-2023-01-04,126.36,229.10,88.08
-2023-01-05,125.02,222.31,86.77
-2023-01-06,129.62,224.93,87.34
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #121212; /* Fondo gris oscuro */
+    color: #e0e0e0; /* Texto claro para el cuerpo */
+}
+h1, h2, h3 {
+    color: #ffffff; /* Texto blanco para encabezados */
+}
+.stButton>button {
+    background-color: #1e88e5; /* Azul vibrante para botones */
+    color: #ffffff; /* Texto blanco */
+    border-radius: 5px;
+    border: 1px solid #1565c0; /* Borde azul oscuro */
+}
+.stButton>button:hover {
+    background-color: #1565c0; /* Azul más oscuro al pasar el ratón */
+}
+.stMetric {
+    background-color: #1e1e1e; /* Fondo gris oscuro para métricas */
+    color: #e0e0e0; /* Texto claro */
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+.stSidebar {
+    background-color: #1a1a1a; /* Fondo oscuro para la barra lateral */
+    color: #e0e0e0; /* Texto claro */
+}
+/* Estilos adicionales para otros elementos */
+.stTextInput>input, .stSelectbox, .stDateInput>input {
+    background-color: #2a2a2a; /* Fondo oscuro para entradas */
+    color: #e0e0e0; /* Texto claro */
+    border: 1px solid #444444;
+    border-radius: 5px;
+}
+.stDataFrame {
+    background-color: #1e1e1e; /* Fondo oscuro para tablas */
+    color: #e0e0e0;
+}
+.stPlotlyChart {
+    background-color: #1e1e1e; /* Fondo oscuro para gráficos */
+}
