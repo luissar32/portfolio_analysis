@@ -1,46 +1,94 @@
+.stAppHeader {
+    background-color: #000000 !important; /* Header completamente negro */
+}
+
+.stDecoration, .stAppToolbar {
+    background-color: #000000 !important; /* Asegura que la decoración y la barra de herramientas sean negras */
+}
+
+.stMain {
+    background-color: #1a1a1a !important; /* Sección principal ligeramente gris */
+}
+
 .stMainBlockContainer {
-    background-color: #0a0a0a;                                                  /*Fondo oscuro */
+    background-color: #1a1a1a !important; /* Contenedor principal ligeramente gris */
+}
+
+[data-testid="stFileUploaderDropzone"] {
+    background-color: #1a1a1a !important; /* Área de carga de archivos ligeramente gris */
+}
+
+[data-testid="stFileUploaderDropzone"] span, [data-testid="stFileUploaderDropzone"] small, [data-testid="stFileUploaderDropzone"] button {
+    color: #ffffff !important; /* Textos y botones en el área de carga blancos */
 }
 
 body {
     font-family: 'Helvetica Neue', Arial, sans-serif;
-    background-color: #121212;                                                  /* Fondo gris oscuro */
-    color: #e0e0e0;                                                             /* Texto claro para el cuerpo */
+    background-color: #121212; /* Fondo gris oscuro */
+    color: #ffffff !important; /* Texto blanco por defecto */
 }
+
 h1, h2, h3 {
-    color: #ffffff;
+    color: #ffffff !important; /* Encabezados blancos */
 }
+
+.stHeading {
+    color: #ffffff !important; /* Encabezados de Streamlit blancos */
+}
+
+.stMarkdown p, .stMarkdownContainer p {
+    color: #ffffff !important; /* Textos como 'Tickers de Acciones' blancos */
+}
+
 .stButton>button {
-    background-color: #1e88e5;                                                  /* Color azul */
-    color: #ffffff;                                                             /* Texto blanco */
+    background-color: #1e88e5; /* Azul vibrante para botones */
+    color: #ffffff !important; /* Texto blanco */
     border-radius: 5px;
-    border: 1px solid #1565c0;                                                  /* Borde azul oscuro */
+    border: 1px solid #1565c0; /* Borde azul oscuro */
 }
+
 .stButton>button:hover {
-    background-color: #1565c0;
+    background-color: #1565c0; /* Azul más oscuro al pasar el ratón */
 }
+
 .stMetric {
-    background-color: #1e1e1e;                                                  /* Fondo gris oscuro  */
-    color: #e0e0e0;                                                             /* Texto claro */
+    background-color: #1e1e1e; /* Fondo gris oscuro para métricas */
+    color: #ffffff !important; /* Texto blanco */
     padding: 10px;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
+
+.stMetric label {
+    color: #ffffff !important; /* Etiquetas de métricas blancas */
+}
+
 .stSidebar {
-    background-color: #1a1a1a;
-    color: #e0e0e0;
+    background-color: #1a1a1a; /* Fondo oscuro para la barra lateral */
+    color: #ffffff !important; /* Texto blanco */
 }
 
 .stTextInput>input, .stSelectbox, .stDateInput>input {
-    background-color: #2a2a2a;
-    color: #e0e0e0;
+    background-color: #2a2a2a; /* Fondo oscuro para entradas */
+    color: #ffffff !important; /* Texto blanco */
     border: 1px solid #444444;
     border-radius: 5px;
 }
-.stDataFrame {
-    background-color: #1e1e1e;
-    color: #e0e0e0;
+
+.stTextInput>label, .stSelectbox>label, .stDateInput>label {
+    color: #ffffff !important; /* Etiquetas blancas */
 }
+
+.stDataFrame {
+    background-color: #1e1e1e; /* Fondo oscuro para tablas */
+    color: #ffffff !important; /* Texto blanco */
+}
+
+.stDataFrame table, .stDataFrame th, .stDataFrame td {
+    color: #ffffff !important; /* Texto blanco en celdas y encabezados de tablas */
+}
+
 .stPlotlyChart {
-    background-color: #1e1e1e;
+    background-color: #1e1e1e; /* Fondo oscuro para gráficos */
+    color: #ffffff !important; /* Texto blanco */
 }
