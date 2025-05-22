@@ -3,7 +3,7 @@
 }
 
 .stDecoration, .stAppToolbar {
-    background-color: #000000 !important; /* Asegura que la decoración y la barra de herramientas sean negras */
+    background-color: #000000 !important; /* Decoración y barra de herramientas negras */
 }
 
 .stMain {
@@ -12,14 +12,6 @@
 
 .stMainBlockContainer {
     background-color: #1a1a1a !important; /* Contenedor principal ligeramente gris */
-}
-
-[data-testid="stFileUploaderDropzone"] {
-    background-color: #1a1a1a !important; /* Área de carga de archivos ligeramente gris */
-}
-
-[data-testid="stFileUploaderDropzone"] span, [data-testid="stFileUploaderDropzone"] small, [data-testid="stFileUploaderDropzone"] button {
-    color: #ffffff !important; /* Textos y botones en el área de carga blancos */
 }
 
 body {
@@ -38,6 +30,14 @@ h1, h2, h3 {
 
 .stMarkdown p, .stMarkdownContainer p {
     color: #ffffff !important; /* Textos como 'Tickers de Acciones' blancos */
+}
+
+.stNumberInput>label {
+    color: #ffffff !important; /* Etiqueta 'Tasa Libre de Riesgo (%)' blanca */
+}
+
+[data-testid="stFileUploaderDropzone"] label, [data-testid="stFileUploaderDropzone"] div[aria-label] {
+    color: #ffffff !important; /* Etiqueta 'Subir CSV (opcional)' blanca */
 }
 
 .stButton>button {

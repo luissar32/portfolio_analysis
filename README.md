@@ -1,9 +1,19 @@
-# Análisis de Cartera de Acciones
+# Análisis de Portafolios de Acciones
 
-Este proyecto analiza el rendimiento de una cartera de acciones usando Python. Calcula métricas financieras como el rendimiento anualizado, volatilidad y ratio Sharpe, y genera una página HTML con gráficos interactivos.
+Este proyecto es un microservicio para analizar y optimizar portafolios de acciones, desarrollado en Python y desplegado en AWS EC2. Calcula métricas financieras clave como el retorno anualizado, volatilidad y ratio Sharpe, y ofrece una interfaz web interactiva con Streamlit para visualizar datos y resultados.
 
-## Instalación
-1. Clona el repositorio: `git clone https://github.com/<tu-usuario>/<nombre-repositorio>.git`
+🌐 **Demo en vivo**: [http://13.59.225.151:8501](http://13.59.225.151:8501)  
+📂 **Código fuente**: [GitHub](https://github.com/luissar32/portfolio_analysis)
+
+## Características
+- Carga datos de acciones en tiempo real usando `yfinance` o subiendo un archivo CSV.
+- Calcula métricas financieras: retorno anualizado, volatilidad, ratio Sharpe.
+- Visualiza retornos acumulados, frontera eficiente y pesos óptimos del portafolio.
+- Interfaz web con tema oscuro personalizado para una experiencia visual elegante.
+- Desplegado en AWS EC2 para acceso público.
+
+## Instalación (Entorno Local)
+1. Clona el repositorio: https://github.com/luissar32/portfolio_analysis.git
 2. Instala las dependencias: `pip install -r requirements.txt`
 3. Ejecuta el script: `python app.py`
 
